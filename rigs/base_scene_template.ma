@@ -122,7 +122,7 @@ createNode place2dTexture -n "place2dTexture1";
 	rename -uid "82757631-A548-0B41-6580-078CC781C4C4";
 createNode renderSetup -n "renderSetup";
 	rename -uid "1ED1551F-AA43-E537-D15D-EF853176F9C9";
-createNode blinn -n "kitbash_mtl";
+createNode blinn -n "base_mtl";
 	rename -uid "DAC6FA17-534C-63BF-1442-4C96259587DB";
 	setAttr ".c" -type "float3" 0.072289154 0.072289154 0.072289154 ;
 	setAttr ".sc" -type "float3" 0.72289157 0.72289157 0.72289157 ;
@@ -279,20 +279,34 @@ createNode unitConversion -n "unitConversion1";
 	setAttr ".cf" 0.017453292519943295;
 createNode reference -n "ABCRN";
 	rename -uid "80A71800-0000-1736-5926-3244000026CF";
+	setAttr -s 2 ".phl";
 	setAttr ".phl[1]" 0;
+	setAttr ".phl[2]" 0;
 	setAttr ".ed" -type "dataReferenceEdits" 
 		"ABCRN"
-		"ABCRN" 0
 		"ABCRN" 4
-		0 "|ABC:kitbash_part_<<OBJECT_NUM>>_grp" "|object_rot_grp" "-s -r "
-		2 "|object_rot_grp|ABC:kitbash_part_<<OBJECT_NUM>>_grp" "rotate" " -type \"double3\" 0 -1 0"
+		0 "|ABC:part_<<OBJECT_NUM>>_grp" "|object_rot_grp" "-s -r "
+		2 "|object_rot_grp|ABC:part_<<OBJECT_NUM>>_grp" "rotate" " -type \"double3\" 0 -1 0"
 		
-		3 "|object_rot_grp|ABC:kitbash_part_<<OBJECT_NUM>>_grp|ABC:kitbash_part_<<OBJECT_NUM>>_1_geo|ABC:kitbash_part_<<OBJECT_NUM>>_1_geoShape.instObjGroups" 
+		3 "|object_rot_grp|ABC:part_<<OBJECT_NUM>>_grp|ABC:part_<<OBJECT_NUM>>_1_geo|ABC:part_<<OBJECT_NUM>>_1_geoShape.instObjGroups" 
 		":initialShadingGroup.dagSetMembers" "-na"
-		5 3 "ABCRN" "|object_rot_grp|ABC:kitbash_part_<<OBJECT_NUM>>_grp|ABC:kitbash_part_<<OBJECT_NUM>>_1_geo|ABC:kitbash_part_<<OBJECT_NUM>>_1_geoShape.instObjGroups" 
-		"ABCRN.placeHolderList[1]" ":initialShadingGroup.dsm";
+		5 3 "ABCRN" "|object_rot_grp|ABC:part_<<OBJECT_NUM>>_grp|ABC:part_<<OBJECT_NUM>>_1_geo|ABC:part_<<OBJECT_NUM>>_1_geoShape.instObjGroups" 
+		"ABCRN.placeHolderList[1]" ":initialShadingGroup.dsm"
+		"ABCRN" 2
+		2 "|ABC:part_<<OBJECT_NUM>>_grp" "rotateY" " 0"
+		5 4 "ABCRN" "|ABC:part_001_grp.rotateZ" "ABCRN.placeHolderList[2]" "";
 	setAttr ".ptag" -type "string" "";
 lockNode -l 1 ;
+createNode unitConversion -n "unitConversion2";
+	rename -uid "594612F1-F544-C679-F826-6C86CEC1116F";
+	setAttr ".cf" 0.017453292519943295;
+createNode expression -n "expression2";
+	rename -uid "C1240768-DE41-22E0-11F2-4D87FD3ECE73";
+	setAttr -k on ".nds";
+	setAttr ".ixp" -type "string" ".O[0]=frame";
+createNode unitConversion -n "unitConversion3";
+	rename -uid "331161C4-A248-3894-000B-0480056ADA4A";
+	setAttr ".cf" 0.017453292519943295;
 select -ne :time1;
 	setAttr ".o" 1;
 	setAttr ".unw" 1;
@@ -319,6 +333,7 @@ select -ne :lightList1;
 select -ne :lambert1;
 	setAttr ".c" -type "float3" 0.18000001 0.18000001 0.18000001 ;
 select -ne :initialShadingGroup;
+	setAttr -s 44 ".dsm";
 	setAttr ".ro" yes;
 select -ne :initialParticleSE;
 	setAttr ".ro" yes;
@@ -340,7 +355,7 @@ select -ne :defaultLightSet;
 select -ne :hardwareRenderGlobals;
 	setAttr ".ctrs" 256;
 	setAttr ".btrs" 512;
-connectAttr "ABCRN.phl[1]" "blinn2SG.dsm" -na;
+connectAttr "unitConversion3.o" "ABCRN.phl[2]";
 connectAttr "unitConversion1.o" "object_rot_grp.ry";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
@@ -353,23 +368,26 @@ relationship "shadowLink" ":lightLinker1" "blinn2SG.message" ":defaultLightSet.m
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
 connectAttr "blinn1SG.msg" "materialInfo1.sg";
-connectAttr "kitbash_mtl.oc" "blinn2SG.ss";
+connectAttr "ABCRN.phl[1]" "blinn2SG.dsm" -na;
+connectAttr "base_mtl.oc" "blinn2SG.ss";
 connectAttr "blinn2SG.msg" "materialInfo2.sg";
-connectAttr "kitbash_mtl.msg" "materialInfo2.m";
+connectAttr "base_mtl.msg" "materialInfo2.m";
 connectAttr "blinn2SG.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
 connectAttr "place2dTexture1.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
 connectAttr "blinn1SG.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "kitbash_mtl.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "base_mtl.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
 connectAttr ":time1.o" "expression1.tim";
 connectAttr "object_rot_grp.msg" "expression1.obm";
 connectAttr "expression1.out[0]" "unitConversion1.i";
+connectAttr ":time1.o" "expression2.tim";
+connectAttr "expression2.out[0]" "unitConversion3.i";
 connectAttr "blinn1SG.pa" ":renderPartition.st" -na;
 connectAttr "blinn2SG.pa" ":renderPartition.st" -na;
-connectAttr "kitbash_mtl.msg" ":defaultShaderList1.s" -na;
+connectAttr "base_mtl.msg" ":defaultShaderList1.s" -na;
 connectAttr "place2dTexture1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 // End of base_scene_template.ma

@@ -63,6 +63,7 @@ class RenderObjects(object):
             'scene_dir',
             'object_dir']
         self.gcp_project = self.config_data['environment']['gcp_project']
+        self.frame_range = self.config_data['frame_range']
 
         LOGGER.setLevel(LOG_LEVELS[CMD_ARGS.verbose])
 
@@ -140,7 +141,7 @@ class RenderObjects(object):
                         geo_data,
                         zyncPath=self.config_data['zync_lib_path'],
                         instance_type='(PREEMPTIBLE) zync-16vcpu-32gb',
-                        frameRange='1-10',
+                        frameRange=self.frameRange,
                         verbose=CMD_ARGS.verbose)
                     LOGGER.info('Submitted ZYNC job ID: %s' % job_id.id)
                 except Exception as e:
