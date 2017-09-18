@@ -56,12 +56,12 @@ class RenderObjects(object):
             'base_path',
             'auth_file',
             'zync_lib_path',
-            'frame_range',
             'scene_template',
             'camera_rig',
             'light_rig',
             'scene_dir',
             'parts_dir']
+        self.frame_range = self.config_data['frame_range']
         self.gcp_project = self.config_data['environment']['gcp_project']
 
         LOGGER.setLevel(LOG_LEVELS[CMD_ARGS.verbose])
