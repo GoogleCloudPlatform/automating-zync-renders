@@ -63,7 +63,6 @@ class RenderObjects(object):
             'scene_dir',
             'object_dir']
         self.gcp_project = self.config_data['environment']['gcp_project']
-        self.frame_range = self.config_data['frame_range']
 
         LOGGER.setLevel(LOG_LEVELS[CMD_ARGS.verbose])
 
@@ -141,7 +140,7 @@ class RenderObjects(object):
                         geo_data,
                         zyncPath=self.config_data['zync_lib_path'],
                         instance_type='(PREEMPTIBLE) zync-16vcpu-32gb',
-                        frameRange=self.frameRange,
+                        frameRange='1-10',
                         verbose=CMD_ARGS.verbose)
                     LOGGER.info('Submitted ZYNC job ID: %s' % job_id.id)
                 except Exception as e:
@@ -161,7 +160,7 @@ class RenderObjects(object):
         for geo in self.render_objects.keys():
 
             # Extract object number.
-            object_id = os.path.splitext(os.path.split(geo)[-1])[0].split('_')[-1]
+            object_id = os.path.splitext(os.path.split(geo)[-1])[0][-2:].zfill(3)
             LOGGER.info('Preparing %s (object ID: %s)' % (geo, object_id))
 
             # Destination file path for scene file.
