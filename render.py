@@ -56,7 +56,7 @@ class RenderObjects(object):
             'base_path',
             'auth_file',
             'zync_lib_path',
-            'bucket_region',
+            'frame_range',
             'scene_template',
             'camera_rig',
             'light_rig',
@@ -129,7 +129,7 @@ class RenderObjects(object):
     def deploy_renders(self):
         ''' Deploy Zync render.'''
 
-        # TODO: Determine if we hard-code framerange.
+        # Iterate over each render object, submitting to ZYNC.
         for geo, geo_data in self.render_objects.iteritems():
 
             LOGGER.info('Operating on %s.' % geo)
@@ -140,7 +140,7 @@ class RenderObjects(object):
                         geo_data,
                         zyncPath=self.config_data['zync_lib_path'],
                         instance_type='(PREEMPTIBLE) zync-16vcpu-32gb',
-                        frameRange='1-10',
+                        frameRange=self.config_data['frame_range'],
                         verbose=CMD_ARGS.verbose)
                     LOGGER.info('Submitted ZYNC job ID: %s' % job_id.id)
                 except Exception as e:
