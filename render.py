@@ -61,7 +61,7 @@ class RenderObjects(object):
             'camera_rig',
             'light_rig',
             'scene_dir',
-            'object_dir']
+            'parts_dir']
         self.gcp_project = self.config_data['environment']['gcp_project']
 
         LOGGER.setLevel(LOG_LEVELS[CMD_ARGS.verbose])
@@ -100,20 +100,20 @@ class RenderObjects(object):
         # end if
 
         # Look for objects, create dict render_objects to iterate over.
-        for geo in self.config_data['objects']:
+        for geo in self.config_data['parts']:
 
             # Build object path.
-            object_path = os.path.join(
+            parts_path = os.path.join(
                 self.config_data['base_path'],
-                self.config_data['object_dir'],
+                self.config_data['parts_dir'],
                 geo)
 
             self.render_objects.update({geo: {}})
 
-            # Ensure object exists before proceeding.
-            if os.path.exists(object_path):
+            # Ensure part exists before proceeding.
+            if os.path.exists(parts_path):
 
-                LOGGER.info('Found object: %s' % object_path)
+                LOGGER.info('Found part: %s' % parts_path)
 
                 if not CMD_ARGS.noop:
                     self.render_objects[geo].update({'bucket_name': bucket.name})
@@ -121,7 +121,7 @@ class RenderObjects(object):
             # end if
         # end for
 
-        LOGGER.info('Found %s objects.' % len(self.render_objects.keys()))
+        LOGGER.info('Found %s parts.' % len(self.render_objects.keys()))
 
     # end def validate
 
@@ -155,19 +155,19 @@ class RenderObjects(object):
     def build_scenes(self):
         '''Read scene template and perform substitution.'''
 
-        # Iterate over each object found, assemble scene,
+        # Iterate over each part found, assemble scene,
         # and submit for rendering.
         for geo in self.render_objects.keys():
 
             # Extract object number.
-            object_id = os.path.splitext(os.path.split(geo)[-1])[0][-2:].zfill(3)
-            LOGGER.info('Preparing %s (object ID: %s)' % (geo, object_id))
+            part_id = os.path.splitext(os.path.split(geo)[-1])[0][-2:].zfill(3)
+            LOGGER.info('Preparing %s (part ID: %s)' % (geo, part_id))
 
             # Destination file path for scene file.
             scene_path = os.path.join(
                 self.config_data['base_path'],
                 self.config_data['scene_dir'],
-                'object_%s_render.ma' % object_id)
+                'part_%s_render.ma' % part_id)
 
             # Define scene template path.
             scene_template = os.path.join(
@@ -200,10 +200,10 @@ class RenderObjects(object):
                     content_new,
                     flags=re.M)
 
-                # Sub object filename.
+                # Sub part filename.
                 geo_path = os.path.join(
                     self.config_data['base_path'],
-                    self.config_data['object_dir'],
+                    self.config_data['parts_dir'],
                     geo)
                 content_new = re.sub(
                     '<<OBJECT>>',
@@ -212,13 +212,13 @@ class RenderObjects(object):
                     flags=re.M)
                 self.render_objects[geo].update({'geo_path': geo_path})
 
-                # Sub object ID.
+                # Sub part ID.
                 content_new = re.sub(
                     '<<OBJECT_NUM>>',
-                    object_id,
+                    part_id,
                     content_new,
                     flags=re.M)
-                self.render_objects[geo].update({'object_id': object_id})
+                self.render_objects[geo].update({'part_id': part_id})
 
                 output_file = open(scene_path, 'w')
                 output_file.write(content_new)
