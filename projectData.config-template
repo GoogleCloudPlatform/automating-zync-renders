@@ -1,5 +1,5 @@
-# Example YAML file for cad-iot-ml project.
-# This config file should be placed at the top level directory of the project.
+# Template YAML file for automating-zync-renders project.
+# This config file should be placed at the root level of the working directory.
 
 # Environment settings.
 environment:
