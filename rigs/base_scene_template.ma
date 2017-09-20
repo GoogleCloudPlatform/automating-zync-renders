@@ -1,6 +1,6 @@
 //Maya ASCII 2017ff04 scene
-//Name: base_scene_template_02.ma
-//Last modified: Mon, Sep 18, 2017 11:25:13 AM
+//Name: part_001_render_02.ma
+//Last modified: Wed, Sep 20, 2017 02:10:36 PM
 //Codeset: UTF-8
 file -rdi 1 -ns "CAM" -rfn "CAMRN" -op "v=0;" -typ "mayaAscii" "<<CAM_RIG>>";
 file -rdi 1 -ns "LGT" -rfn "LGTRN" -op "v=0;" -typ "mayaAscii" "<<LIGHT_RIG>>";
@@ -86,23 +86,24 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".ai_translator" -type "string" "orthographic";
 createNode transform -n "part_rot_grp";
 	rename -uid "DCFD0FE3-FC47-B7F3-4584-20A2506A0ED6";
+	setAttr ".s" -type "double3" <<PART_SCALE>> <<PART_SCALE>> <<PART_SCALE>> ;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "79CD9F71-C641-4B0A-F0ED-10AC87004CBE";
+	rename -uid "9E670EB1-5E46-9CF5-2A51-C8AE18357787";
 	setAttr -s 3 ".lnk";
 	setAttr -s 3 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "952BBC77-B74D-DE8D-9B43-CF9378BCA2B5";
+	rename -uid "94DFB78C-B640-B3D7-DF70-11BC092BBAE3";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "6AAE7AD3-3B44-F100-F6DB-BBB0F6D4D603";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "A0304573-BA4D-22A7-757E-A3BCA412DFA2";
+	rename -uid "1736A307-1B4F-2A9A-0813-9B986AE517E1";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "B812E668-8E4A-EF0F-7678-1296FA3AEB7B";
 	setAttr ".g" yes;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "A61527B1-2242-1D25-98DE-59B1D3FD61A3";
+	rename -uid "F9145410-6A41-3A4A-1674-D88CD5437B5F";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "80E7A747-994A-5596-D526-D5A726245F3D";
+	rename -uid "66F2D0CD-3841-69D2-2131-20B098E3C85D";
 createNode reference -n "CAMRN";
 	rename -uid "DF47B968-8342-B044-533D-DF988BD23717";
 	setAttr ".ed" -type "dataReferenceEdits" 
@@ -112,7 +113,7 @@ createNode reference -n "CAMRN";
 lockNode -l 1 ;
 createNode aiOptions -s -n "defaultArnoldRenderOptions";
 	rename -uid "80A71800-0000-1736-5926-2FBF00001B66";
-	setAttr ".AA_samples" 6;
+	setAttr ".AA_samples" 5;
 	setAttr ".GI_diffuse_samples" 3;
 	setAttr ".version" -type "string" "1.4.0.0";
 createNode aiAOVFilter -s -n "defaultArnoldFilter";
@@ -150,7 +151,7 @@ createNode unitConversion -n "unitConversion1";
 	setAttr ".cf" 0.017453292519943295;
 createNode script -n "sceneConfigurationScriptNode";
 	rename -uid "2AA031E5-A848-5E58-148D-C5AE395A19B8";
-	setAttr ".b" -type "string" "playbackOptions -min 1 -max 5400 -ast 1 -aet 5400 ";
+	setAttr ".b" -type "string" "playbackOptions -min 1 -max 1000 -ast 1 -aet 1000 ";
 	setAttr ".st" 6;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -305,11 +306,11 @@ select -ne :defaultRenderGlobals;
 select -ne :defaultResolution;
 	setAttr -k on ".cch";
 	setAttr -k on ".nds";
-	setAttr -av ".w" 1280;
-	setAttr -av ".h" 720;
+	setAttr -av ".w" 512;
+	setAttr -av ".h" 384;
 	setAttr -av ".pa" 1;
 	setAttr -k on ".al";
-	setAttr -av ".dar" 1.7769999504089355;
+	setAttr -av ".dar" 1.3333333730697632;
 	setAttr -k on ".ldar";
 	setAttr -k on ".dpi";
 	setAttr -k on ".off";
@@ -362,4 +363,4 @@ connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
 connectAttr ":time1.o" "expression1.tim";
 connectAttr "expression1.out[0]" "unitConversion1.i";
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
-// End of base_scene_template_02.ma
+// End of part_001_render_02.ma

@@ -4,7 +4,6 @@ This is the working directory template for the tutorial _Automating image render
 
 ## Install
 ```sh
-cd ~/git
 git clone http://github.com/GoogleCloudPlatform/automating-zync-renders
 ```
 

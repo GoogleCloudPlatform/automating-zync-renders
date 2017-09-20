@@ -62,6 +62,7 @@ class RenderObjects(object):
             'scene_dir',
             'parts_dir']
         self.frame_range = self.config_data['frame_range']
+        self.part_scale = str(self.config_data['part_scale'])
         self.gcp_project = self.config_data['environment']['gcp_project']
 
         LOGGER.setLevel(LOG_LEVELS[CMD_ARGS.verbose])
@@ -219,6 +220,14 @@ class RenderObjects(object):
                     content_new,
                     flags=re.M)
                 self.render_objects[geo].update({'part_id': part_id})
+
+                # Sub part scale.
+                content_new = re.sub(
+                    '<<PART_SCALE>>',
+                    self.part_scale,
+                    content_new,
+                    flags=re.M)
+                self.render_objects[geo].update({'part_scale': self.part_scale})
 
                 output_file = open(scene_path, 'w')
                 output_file.write(content_new)
