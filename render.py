@@ -87,7 +87,7 @@ class RenderObjects(object):
         # Authenticate before creating buckets.
         LOGGER.info('Setting envar $GOOGLE_APPLICATION_CREDENTIALS to %s.' % \
         self.config_data['auth_file'])
-        os.putenv('GOOGLE_APPLICATION_CREDENTIALS', self.config_data['auth_file'])
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.config_data['auth_file']
 
         # Create bucket, if not already created.
         bucket_name = '%s-renders' % self.gcp_project
