@@ -20,7 +20,7 @@ from pprint import pprint as pp
 def launch( geoData,
             zyncPath,
             instance_type='(PREEMPTIBLE) zync-16vcpu-32gb',
-            frameRange='1-5400',
+            frameRange='1-1000',
             verbose=0 ):
     '''Perform tasks necessary to deploy ZYNC render job. Consists mainly of
     building 'params' dict and submitting to the ZYNC object 'z'.'''
@@ -50,7 +50,7 @@ def launch( geoData,
         'instance_type': instance_type,
         'frange': frameRange,
         'step': 1, 
-        'chunk_size': 5, 
+        'chunk_size': 50, 
         'renderer': 'arnold', 
         'layers': 'defaultRenderLayer',
         'out_path': geoData['image_dir'],
