@@ -14,6 +14,7 @@
 
 '''Utility methods for Automating ZYNC renders pipeline.'''
 
+import re
 import yaml
 
 def read(yaml_file):
@@ -29,4 +30,12 @@ def read(yaml_file):
         return yml_data
 
     # end with
+# end def
+
+
+def get_trailing_number(part):
+  '''Strip part number off part Alembic file.'''
+
+  num = re.search(r'\d+$', part)
+  return num.group() if num else None
 # end def

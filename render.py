@@ -30,7 +30,7 @@ import sys
 from google.cloud import storage
 
 # Import custom modules.
-import scripts.utils as utils
+from scripts import utils
 import scripts.launchZyncJob as lzj
 import scripts.colorLogs
 
@@ -160,8 +160,9 @@ class RenderObjects(object):
         # and submit for rendering.
         for geo in self.render_objects.keys():
 
-            # Extract object number.
-            part_id = os.path.splitext(os.path.split(geo)[-1])[0][-2:].zfill(3)
+            # Extract object number. Here, we capture all traling digits, no
+            # matter the length. Make sure they're padded to 3 digits at least.
+            part_id = utils.get_trailing_number(os.path.splitext(os.path.split(geo)[-1])[0]).zfill(3)
             LOGGER.info('Preparing %s (part ID: %s)' % (geo, part_id))
 
             # Destination file path for scene file.

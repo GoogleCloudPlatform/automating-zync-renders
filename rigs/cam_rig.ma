@@ -325,7 +325,7 @@ select -ne :defaultRenderGlobals;
 	setAttr -k on ".gama";
 	setAttr ".an" yes;
 	setAttr -k on ".ar";
-	setAttr ".ef" 5400;
+	setAttr ".ef" 1000;
 	setAttr -av -k on ".bfs";
 	setAttr -cb on ".me";
 	setAttr -k on ".se";
