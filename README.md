@@ -9,7 +9,7 @@ git clone http://github.com/GoogleCloudPlatform/automating-zync-renders
 
 ## Usage
 
-Refer to solution [Automating image rendering using ZYNC]() for installation and usage.
+Refer to solution [Automating image rendering using ZYNC](https://cloud.google.com/solutions/automating-image-rendering-using-zync) for installation and usage.
 
 ## License
 
