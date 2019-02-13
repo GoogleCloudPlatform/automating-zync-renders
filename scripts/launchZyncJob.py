@@ -66,13 +66,13 @@ def launch( geoData,
         'vray_nightly': 0, 
         'scene_info': {
             'files': [], 
-            'arnold_version': '1.4.2.0', 
+            'arnold_version': '3.0.1.1', 
             'plugins': ['mtoa'],
             'file_prefix': ['', {
                 'cad-iot-ml': ''
             }], 
             'padding': 4, 
-            'vray_version': '2.40.01', 
+            'vray_version': '3.60.04', 
             'references': [ geoData['camera_rig'],
                             geoData['light_rig'],
                             geoData['geo_path'],
